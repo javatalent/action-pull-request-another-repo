@@ -67,7 +67,7 @@ git add .
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "$INPUT_COMMIT_MSG"
-
+  gh auth login --with-token $API_TOKEN_GITHUB
   if [ $BRANCH_EXISTS == 1 ];
   then
     echo "Pushing git commit"
