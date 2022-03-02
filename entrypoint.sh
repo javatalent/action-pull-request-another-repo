@@ -67,7 +67,9 @@ git add .
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "$INPUT_COMMIT_MSG"
-
+  
+  echo $INPUT_COMMIT_MSG
+  
   if [ $BRANCH_EXISTS == 1 ];
   then
     echo "Pushing git commit"
