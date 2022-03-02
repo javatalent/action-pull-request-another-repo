@@ -67,7 +67,7 @@ git add .
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "$INPUT_COMMIT_MSG"
-  gh auth login --with-token $API_TOKEN_GITHUB
+
   if [ $BRANCH_EXISTS == 1 ];
   then
     echo "Pushing git commit"
@@ -83,6 +83,9 @@ then
     echo "Pushing git commit"
     git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
 
+    echo "auth login"
+    gh auth login --with-token $API_TOKEN_GITHUB
+    
     echo "Creating a pull request"
     gh pr create -t "$INPUT_PR_TITLE" \
                  -b "Commit(s) from:
