@@ -73,9 +73,8 @@ else
 fi
 
 echo "Copying files"
-for i in "${source_folders[@]}"
-do
-  rsync -a --delete "$HOME_DIR/${source_folders[$i]}" "$CLONE_DIR/${destination_folders[$i]}/"
+for i in "${!source_folders[@]}"; do
+    rsync -a --delete "$HOME_DIR/${source_folders[i]}" "$CLONE_DIR/${destination_folders[i]}/"
 done
 git add .
 
