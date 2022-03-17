@@ -1,7 +1,6 @@
 FROM alpine:3.14
 
-RUN apk add --no-cache git hub bash && \
-    apk update && \
+RUN apk update && \
     apk upgrade && \
     apk add git && \
     apk add go && \
@@ -12,7 +11,8 @@ RUN apk add --no-cache git hub bash && \
     git clone https://github.com/cli/cli.git gh-cli && \
     cd gh-cli && \
     make && \
-    mv ./bin/gh /usr/local/bin/
+    mv ./bin/gh /usr/local/bin/ && \
+    apk add --no-cache git hub bash
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
