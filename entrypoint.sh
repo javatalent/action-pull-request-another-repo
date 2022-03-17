@@ -1,30 +1,39 @@
 #!/bin/sh
+
 set -e
 set -x
 
 if [ -z "$INPUT_SOURCE_FOLDER" ]
 then
   echo "Source folder must be defined"
-  return -1
+  return 2
 fi
 
 if [ -z $INPUT_PR_TITLE ]
 then
     echo "pr_title must be defined"
-    return -1
+    return 2
 fi
 
 
 if [ -z $INPUT_COMMIT_MSG ]
 then
     echo "commit_msg must be defined"
-    return -1
+    return 2
+fi
+IFS=',' read -ra source_folders <<< "$INPUT_SOURCE_FOLDER"
+IFS=',' read -ra destination_folders <<< "$INPUT_DESTINATION_FOLDER"
+source_folders_len=${#source_folders[@]}
+destination_folders_len=${#destination_folders[@]}
+if [[ $source_folders_len -ne $destination_folders_len ]]; then
+  echo "source_folders_len must be equal to destination_folders_len"
+  return 2
 fi
 
 if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master" ]
 then
   echo "Destination head branch cannot be 'main' nor 'master'"
-  return -1
+  return 2
 fi
 
 if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]
@@ -61,7 +70,10 @@ else
 fi
 
 echo "Copying files"
-rsync -a --delete "$HOME_DIR/$INPUT_SOURCE_FOLDER" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+for i in "${source_folders[@]}"
+do
+  rsync -a --delete "$HOME_DIR/${source_folders[$i]}" "$CLONE_DIR/${destination_folders[$i]}/"
+done
 git add .
 
 if git status | grep -q "Changes to be committed"
