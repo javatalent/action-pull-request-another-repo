@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 set -x
 
@@ -20,14 +19,6 @@ if [ -z $INPUT_COMMIT_MSG ]
 then
     echo "commit_msg must be defined"
     return -1
-fi
-IFS=',' source_folders=($INPUT_SOURCE_FOLDER)
-IFS=',' destination_folders=($INPUT_DESTINATION_FOLDER)
-source_folders_len=${#source_folders[@]}
-destination_folders_len=${#destination_folders[@]}
-if [[ $source_folders_len -ne $destination_folders_len ]]; then
-  echo "source_folders_len must be equal to destination_folders_len"
-  return -1
 fi
 
 if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master" ]
@@ -70,10 +61,7 @@ else
 fi
 
 echo "Copying files"
-for i in "${source_folders[@]}"
-do
-  rsync -a --delete "$HOME_DIR/${source_folders[$i]}" "$CLONE_DIR/${destination_folders[$i]}/"
-done
+rsync -a --delete "$HOME_DIR/$INPUT_SOURCE_FOLDER" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 git add .
 
 if git status | grep -q "Changes to be committed"
