@@ -1,6 +1,7 @@
 FROM alpine:3.14
 
-RUN apk update && \
+RUN apk add --no-cache git hub bash && \
+    apk update && \
     apk upgrade && \
     apk add git && \
     apk add go && \
