@@ -23,9 +23,8 @@ then
 fi
 
 set -f
-IFS=,
-source_folders=($INPUT_SOURCE_FOLDER)
-destination_folders=($INPUT_DESTINATION_FOLDER)
+IFS=',' eval 'source_folders=($INPUT_SOURCE_FOLDER)'
+IFS=',' eval 'destination_folders=($INPUT_DESTINATION_FOLDER)'
 
 source_folders_len=${#source_folders[@]}
 destination_folders_len=${#destination_folders[@]}
