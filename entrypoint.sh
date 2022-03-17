@@ -20,8 +20,8 @@ then
     echo "commit_msg must be defined"
     return -1
 fi
-source_folders=($(echo $INPUT_SOURCE_FOLDER | tr ";" "\n"))
-destination_folders=($(echo $INPUT_DESTINATION_FOLDER | tr ";" "\n"))
+source_folders=(${INPUT_SOURCE_FOLDER//,/ })
+destination_folders=(${INPUT_DESTINATION_FOLDER//,/ })
 source_folders_len=${#source_folders[@]}
 destination_folders_len=${#destination_folders[@]}
 if [[ $source_folders_len -ne $destination_folders_len ]]; then
