@@ -63,8 +63,8 @@ cd "$CLONE_DIR"
 git fetch -a
 
 echo "Checking if branch already exists"
-
-if [ `git branch --list $INPUT_DESTINATION_HEAD_BRANCH` ]
+BRANCH_EXIST=$(git branch --list development | wc -l | xargs)
+if [[ $BRANCH_EXIST == 1 ]];
 then
     git checkout "$INPUT_DESTINATION_HEAD_BRANCH"
 else
