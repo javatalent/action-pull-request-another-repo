@@ -1,6 +1,8 @@
 FROM alpine:3.17
 
-RUN apk update && \
+RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
+    apk add --no-cache git hub bash && \
+    apk update && \
     apk upgrade && \
     apk add git && \
     apk add go && \
@@ -14,5 +16,5 @@ RUN apk update && \
     mv ./bin/gh /usr/local/bin/
 
 ADD entrypoint.sh /entrypoint.sh
-
+RUN chmod +x entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
