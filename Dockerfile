@@ -8,7 +8,7 @@ RUN apk update && \
     apk add make && \
     apk add rsync && \
     apk add jq && \
-    git clone https://github.com/cli/cli.git gh-cli && \
+    git clone --branch v2.34.0 https://github.com/cli/cli.git gh-cli && \
     cd gh-cli && \
     make && \
     mv ./bin/gh /usr/local/bin/
